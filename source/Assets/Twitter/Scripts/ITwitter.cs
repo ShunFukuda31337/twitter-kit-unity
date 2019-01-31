@@ -17,20 +17,22 @@
 
 namespace TwitterKit.Internal
 {
-	using TwitterKit.Unity;
-	
-	internal interface ITwitter
-	{
-		void Init (string consumerKey, string consumerSecret);
+    using TwitterKit.Unity;
 
-		void LogIn ();
+    internal interface ITwitter
+    {
+        void Init(string consumerKey, string consumerSecret);
 
-		void LogOut ();
+        void LogIn();
 
-		TwitterSession Session ();
+        void LogOut();
 
-		void RequestEmail (TwitterSession session);
+        TwitterSession Session();
 
-		void Compose (TwitterSession session, string imageUri, string text, string[] hashtags);
-	}
+        void RequestEmail(TwitterSession session);
+
+        void Compose(TwitterSession session, string imageUri, string text, string[] hashtags);
+
+        void LogOutAllSessions();
+    }
 }

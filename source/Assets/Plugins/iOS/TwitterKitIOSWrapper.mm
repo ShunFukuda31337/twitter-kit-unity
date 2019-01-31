@@ -182,6 +182,24 @@ void TwitterLogOut()
     }
 }
 
+void TwitterLogOutAllSessions()
+{
+    NSArray *source = [[Twitter.sharedInstance sessionStore] existingUserSessions];
+    if(!source)
+    {
+        return;
+    }
+
+    NSArray *existingSessions = [NSArray arrayWithArray:source];
+    [existingSessions indexOfObjectPassingTest:^BOOL(TWTRSession* session, NSUInteger idx, BOOL *stop) {
+        if(session) {
+            NSLog(@"logout session %@",session.userName);
+            [[Twitter.sharedInstance sessionStore] logOutUserID:session.userID];
+        }
+        return NO;
+    }];
+}
+
 /**
  *  Convenience method for retrieving the active user session.
  *

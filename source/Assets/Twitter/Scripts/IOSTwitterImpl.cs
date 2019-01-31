@@ -18,64 +18,72 @@
 #if UNITY_IOS && !UNITY_EDITOR
 namespace TwitterKit.Internal
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using UnityEngine;
-	using TwitterKit.Unity;
-	
-	internal class IOSTwitterImpl : ITwitter
-	{
-		[DllImport("__Internal")]
-private static extern void TwitterInit (string consumerKey, string consumerSecret);
+    using System;
+    using System.Runtime.InteropServices;
+    using UnityEngine;
+    using TwitterKit.Unity;
 
-		[DllImport("__Internal")]
-		private static extern void TwitterLogIn ();
+    internal class IOSTwitterImpl : ITwitter
+    {
+        [DllImport("__Internal")]
+        private static extern void TwitterInit(string consumerKey, string consumerSecret);
 
-		[DllImport("__Internal")]
-		private static extern void TwitterLogOut ();
+        [DllImport("__Internal")]
+        private static extern void TwitterLogIn();
 
-		[DllImport("__Internal")]
-		private static extern string TwitterSession ();
+        [DllImport("__Internal")]
+        private static extern void TwitterLogOut();
 
-		[DllImport("__Internal")]
-		private static extern void TwitterCompose (string userID, string imageUri, String text, string[] hashtags, int hashtagCount);
+        [DllImport("__Internal")]
+        private static extern void TwitterLogOutAllSessions();
 
-		[DllImport("__Internal")]
-		private static extern void TwitterRequestEmail (string userID);
+        [DllImport("__Internal")]
+        private static extern string TwitterSession();
 
-		public void Init (string consumerKey, string consumerSecret)
-		{
-			IOSTwitterImpl.TwitterInit (consumerKey, consumerSecret);
-		}
+        [DllImport("__Internal")]
+        private static extern void TwitterCompose(string userID, string imageUri, String text, string[] hashtags, int hashtagCount);
 
-		public void LogIn ()
-		{
-			IOSTwitterImpl.TwitterLogIn ();
-		}
+        [DllImport("__Internal")]
+        private static extern void TwitterRequestEmail(string userID);
 
-		public void LogOut ()
-		{
-			IOSTwitterImpl.TwitterLogOut ();
-		}
+        public void Init(string consumerKey, string consumerSecret)
+        {
+            IOSTwitterImpl.TwitterInit(consumerKey, consumerSecret);
+        }
 
-		public TwitterSession Session ()
-		{
-			string serializedSession = IOSTwitterImpl.TwitterSession();
-			TwitterSession session = TwitterKit.Unity.TwitterSession.Deserialize (serializedSession);
-			return session;
-		}
+        public void LogIn()
+        {
+            IOSTwitterImpl.TwitterLogIn();
+        }
 
-		public void RequestEmail (TwitterSession session)
-		{
-			IOSTwitterImpl.TwitterRequestEmail (Convert.ToString (session.id));
-		}
+        public void LogOut()
+        {
+            IOSTwitterImpl.TwitterLogOut();
+        }
 
-		public void Compose (TwitterSession session, string imageUri, string text, string[] hashtags)
-		{
-			int hashtagsLength = hashtags == null ? 0 : hashtags.Length;
-			string imagePath = imageUri != null ? imageUri.Replace("file://", "") : null;
-			IOSTwitterImpl.TwitterCompose (Convert.ToString(session.id), imagePath, text, hashtags, hashtagsLength);
-		}
-	}
+        public TwitterSession Session()
+        {
+            string serializedSession = IOSTwitterImpl.TwitterSession();
+            TwitterSession session = TwitterKit.Unity.TwitterSession.Deserialize(serializedSession);
+            return session;
+        }
+
+        public void LogOutAllSessions()
+        {
+            IOSTwitterImpl.TwitterLogOutAllSessions();
+        }
+
+        public void RequestEmail(TwitterSession session)
+        {
+            IOSTwitterImpl.TwitterRequestEmail(Convert.ToString(session.id));
+        }
+
+        public void Compose(TwitterSession session, string imageUri, string text, string[] hashtags)
+        {
+            int hashtagsLength = hashtags == null ? 0 : hashtags.Length;
+            string imagePath = imageUri != null ? imageUri.Replace("file://", "") : null;
+            IOSTwitterImpl.TwitterCompose(Convert.ToString(session.id), imagePath, text, hashtags, hashtagsLength);
+        }
+    }
 }
 #endif

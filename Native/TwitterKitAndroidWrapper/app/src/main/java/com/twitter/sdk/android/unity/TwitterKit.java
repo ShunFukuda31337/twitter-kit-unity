@@ -34,6 +34,9 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
 import com.unity3d.player.UnityPlayer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A class to expose TwitterKit methods for Unity
  */
@@ -67,6 +70,23 @@ public class TwitterKit {
      */
     public static void logout() {
         TwitterCore.getInstance().getSessionManager().clearActiveSession();
+    }
+
+    public static void clearAllSessions() {
+        Map<Long, TwitterSession> sourceMap = TwitterCore.getInstance().getSessionManager().getSessionMap();
+        if (sourceMap.isEmpty())
+        {
+            return;
+        }
+
+        Map<Long,TwitterSession> map = new HashMap<Long, TwitterSession>();
+        for (Map.Entry<Long,TwitterSession> entry: sourceMap.entrySet()) {
+            map.put(entry.getKey(),entry.getValue());
+        }
+
+        for (Map.Entry<Long,TwitterSession> entry: map.entrySet()) {
+            TwitterCore.getInstance().getSessionManager().clearSession(entry.getKey());
+        }
     }
 
     /**

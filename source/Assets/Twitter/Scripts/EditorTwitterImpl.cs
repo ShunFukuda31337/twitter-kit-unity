@@ -18,48 +18,53 @@
 #if UNITY_EDITOR
 namespace TwitterKit.Internal
 {
-	using TwitterKit.Unity;
-	using UnityEngine;
+    using TwitterKit.Unity;
+    using UnityEngine;
 
-	internal class EditorTwitterImpl : ITwitter
-	{
-		private TwitterSession EditorSession;
+    internal class EditorTwitterImpl : ITwitter
+    {
+        private TwitterSession EditorSession;
 
-		public EditorTwitterImpl ()
-		{
-			AuthToken editorAuthToken = new AuthToken ("editorToken", "editorSecret");
-			EditorSession = new TwitterSession (0, "Editor", editorAuthToken);
-		}
+        public EditorTwitterImpl()
+        {
+            AuthToken editorAuthToken = new AuthToken("editorToken", "editorSecret");
+            EditorSession = new TwitterSession(0, "Editor", editorAuthToken);
+        }
 
-		public void Init (string consumerKey, string consumerSecret)
-		{
-			Utils.Log ("Would call Twitter init on a physical device with key=" + consumerKey + " and secret=" + consumerSecret);
-		}
+        public void LogOutAllSessions()
+        {
 
-		public void LogIn ()
-		{
-			Utils.Log ("Would call Twitter login on a physical device.");
-		}
+        }
 
-		public void LogOut ()
-		{
-			Debug.Log ("Would call Twitter logout on a physical device.");
-		}
+        public void Init(string consumerKey, string consumerSecret)
+        {
+            Utils.Log("Would call Twitter init on a physical device with key=" + consumerKey + " and secret=" + consumerSecret);
+        }
 
-		public TwitterSession Session ()
-		{
-			return EditorSession;
-		}
+        public void LogIn()
+        {
+            Utils.Log("Would call Twitter login on a physical device.");
+        }
 
-		public void RequestEmail (TwitterSession session)
-		{
-			Debug.Log ("Would call Twitter RequestEmail on a physical device for user " + session.userName);
-		}
+        public void LogOut()
+        {
+            Debug.Log("Would call Twitter logout on a physical device.");
+        }
 
-		public void Compose (TwitterSession session, string imageUri, string text, string[] hashtags)
-		{
-			Debug.Log ("Would call Twitter Compose on a physical device for user " + session.userName);
-		}
-	}
+        public TwitterSession Session()
+        {
+            return EditorSession;
+        }
+
+        public void RequestEmail(TwitterSession session)
+        {
+            Debug.Log("Would call Twitter RequestEmail on a physical device for user " + session.userName);
+        }
+
+        public void Compose(TwitterSession session, string imageUri, string text, string[] hashtags)
+        {
+            Debug.Log("Would call Twitter Compose on a physical device for user " + session.userName);
+        }
+    }
 }
 #endif

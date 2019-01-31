@@ -18,45 +18,50 @@
 #if UNITY_ANDROID && !UNITY_EDITOR
 namespace TwitterKit.Internal
 {
-	using UnityEngine;
-	using System;
-	using TwitterKit.Unity;
-	
-	internal class AndroidTwitterImpl : ITwitter
-	{
-		private AndroidJavaClass twitter = new AndroidJavaClass ("com.twitter.sdk.android.unity.TwitterKit");
+    using UnityEngine;
+    using System;
+    using TwitterKit.Unity;
 
-		public void Init (string consumerKey, string consumerSecret)
-		{
-			twitter.CallStatic ("init", consumerKey, consumerSecret);
-		}
+    internal class AndroidTwitterImpl : ITwitter
+    {
+        private AndroidJavaClass twitter = new AndroidJavaClass("com.twitter.sdk.android.unity.TwitterKit");
 
-		public void LogIn ()
-		{
-			twitter.CallStatic ("login");
-		}
+        public void Init(string consumerKey, string consumerSecret)
+        {
+            twitter.CallStatic("init", consumerKey, consumerSecret);
+        }
 
-		public void LogOut ()
-		{
-			twitter.CallStatic ("logout");
-		}
+        public void LogIn()
+        {
+            twitter.CallStatic("login");
+        }
 
-		public TwitterSession Session ()
-		{
-			string session = twitter.CallStatic<string> ("session");
-			return TwitterSession.Deserialize (session);
-		}
+        public void LogOut()
+        {
+            twitter.CallStatic("logout");
+        }
 
-		public void RequestEmail (TwitterSession session)
-		{
-			twitter.CallStatic ("requestEmail", TwitterSession.Serialize (session));
-		}
+        public TwitterSession Session()
+        {
+            string session = twitter.CallStatic<string>("session");
+            return TwitterSession.Deserialize(session);
+        }
 
-		public void Compose (TwitterSession session, String imageUri, String text, string[] hashtags)
-		{
-			string sessionStr = TwitterSession.Serialize (session);
-			twitter.CallStatic ("compose", sessionStr, imageUri, text, hashtags);
-		}
-	}
+        public void RequestEmail(TwitterSession session)
+        {
+            twitter.CallStatic("requestEmail", TwitterSession.Serialize(session));
+        }
+
+        public void Compose(TwitterSession session, String imageUri, String text, string[] hashtags)
+        {
+            string sessionStr = TwitterSession.Serialize(session);
+            twitter.CallStatic("compose", sessionStr, imageUri, text, hashtags);
+        }
+
+        public void LogOutAllSessions()
+        {
+            twitter.CallStatic("clearAllSessions");
+        }
+    }
 }
 #endif
